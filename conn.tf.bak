@@ -1,0 +1,20 @@
+resource "null_resource" "apa-install" {
+
+    count    = length(var.zone)
+  connection {
+    type     = "ssh"
+    host     = ncloud_network_interface.create_nic_pub[count.index].private_ip
+    user     = "root"
+    port     = "22"
+    password = data.ncloud_root_password.root_passwd_pub[count.index].root_password
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+     "sudo yum install -y httpd",
+     "sudo systemctl start httpd",
+     "sudo systemctl enable httpd",
+    ]
+  }
+}
+
