@@ -7,7 +7,8 @@ pipeline {
     }
 
      environment {
-
+         TF_VAR_access_key    = credentials('access')
+        TF_VAR_secret_key = credentials('secret')
     }
 
     stages {
