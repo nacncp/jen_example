@@ -46,8 +46,10 @@ resource "ncloud_init_script" "create_web_init" {
 #was 이니스크립트
 resource "ncloud_init_script" "create_was_init" {
   name    = "${var.pnoun}-wascon"
- content = "${file("tomcat.sh")}"
-
+  content = templatefile("${path.module}/tomcat.tpl", {
+  db_domain = "${ncloud_mysql.create_mysql.mysql_server_list[0].private_domain}"
+  })
+  depends_on =[ncloud_mysql.create_mysql]
 }
 
 #bas nic
@@ -116,7 +118,7 @@ resource "ncloud_server" "create_pub_sv" {
     order = 0
   }
 }
-/*
+
 #db server
 resource "ncloud_mysql" "create_mysql" {
   subnet_no = ncloud_subnet.create_db_subnet[0].id
@@ -126,10 +128,11 @@ resource "ncloud_mysql" "create_mysql" {
   user_password = "user123!@#"
   host_ip = "%"
   database_name = "mysql"
-  is_multi_zone = "true"
+  is_ha = true
+  is_multi_zone = true
   standby_master_subnet_no=ncloud_subnet.create_db_subnet[1].id
 }
-*/
+
 
 
 resource "ncloud_public_ip" "public-ip" {

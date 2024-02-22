@@ -2,7 +2,7 @@
 
 // 키 이름
 resource "ncloud_login_key" "create_key" {
-  key_name = "${var.pnoun}-key"
+  key_name = "${var.pnoun}-key-1"
 }
 resource "local_file" "ncp_pem" {
   filename = "${var.pnoun}_key.pem"
