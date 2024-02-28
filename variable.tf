@@ -1,18 +1,18 @@
 #variable.tf
 // VPC 이름
 variable "pnoun" {
-  type = string
+  type    = string
   default = "molru"
 }
 // VPC 생성
 variable "vpc_cidr_block" {
-  type = string
-  default= "10.101.0.0/16"
+  type    = string
+  default = "10.101.0.0/16"
 }
 // Subnet을 생성할 Zone 선택(ex:KR-1,KR-2...)
 variable "zone" {
-  type = list
-  default=["KR-2", "KR-1"]
+  type    = list(any)
+  default = ["KR-2", "KR-1"]
 }
 /*
 // Server_bas_ip 사용 대역
@@ -49,16 +49,16 @@ variable "server_lb_CIDR" {
 */
 // NATGW 여부
 variable "natgw_chk" {
-  type = bool
+  type    = bool
   default = false
 }
 // Route table ID
 variable "route_table_no" {
-  type = string
+  type    = string
   default = ""
 }
 // delet
 variable "client_ip" {
-  type = string
+  type    = string
   default = "223.130.140.198"
 }
