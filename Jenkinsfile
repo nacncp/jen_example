@@ -44,7 +44,7 @@ pipeline {
 
                 slackSend(
                 channel: '#test-jenkins-noti',
-                color: 'good',
+                color: '#FF0000',
                 message: "Build successful: ${currentBuild.fullDisplayName}"
             )
  
