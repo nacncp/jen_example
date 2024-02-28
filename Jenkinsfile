@@ -32,6 +32,7 @@ pipeline {
            steps {
                script {
                     input message: "Do you want to apply the plan?",
+            slackSend(channel: '#test-jenkins-noti', color: 'good', message: "Jenkins Build want?"),
                     parameters: [text(name: 'Plan', description: 'Please review the plan')]
 
                }
@@ -40,7 +41,8 @@ pipeline {
 
         stage('Apply') {
             steps {
-                sh "terraform destroy --auto-approve"
+                sh "terraform destroy --auto-approve",
+            slackSend(channel: '#test-jenkins-noti', color: 'good', message: "Jenkins Build Successful")
             }
         }
     }
