@@ -43,6 +43,17 @@ pipeline {
         stage('Apply') {
             steps {
                 sh "terraform destroy --auto-approve"
+
+                slackSend(
+                channel: '#test-jenkins-noti',
+                color: 'good',
+                message: "Build successful: ${currentBuild.fullDisplayName}"
+            )
+                emailext (
+                subject: "Jenkins Build Successful: ${currentBuild.fullDisplayName}",
+                body: "The build was successful. It's ready for deployment.",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            }
             }
         }
     }
