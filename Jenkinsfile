@@ -51,7 +51,8 @@ pipeline {
                 subject: "Jenkins Build Successful: ${currentBuild.fullDisplayName}",
                 body: "The build was successful. It's ready for deployment.",
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-            }
+           )
+ 
             }
         }
     }
