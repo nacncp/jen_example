@@ -41,7 +41,7 @@ pipeline {
 
         stage('Apply') {
             steps {
-                sh "terraform destroy --auto-approve",
+                sh "terraform destroy -auto-approve",
             slackSend(channel: '#test-jenkins-noti', color: 'good', message: "Jenkins Build Successful")
             }
         }
