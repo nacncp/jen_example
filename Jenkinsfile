@@ -32,7 +32,7 @@ pipeline {
            steps {
                script {
                     input message: "Do you want to apply the plan?",
-            slackSend(channel: '#test-jenkins-noti', color: 'good', message: "Jenkins Build want?"),
+            slackSend(channel: '#test-jenkins-noti', color: 'good', message: "Jenkins Build want?")
                     parameters: [text(name: 'Plan', description: 'Please review the plan')]
 
                }
