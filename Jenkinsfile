@@ -46,7 +46,7 @@ channel: '#test-jenkins-noti',
 color: 'good', 
 message: "Jenkins Build Successful"
 ),
-                sh "terraform destroy -auto-approve", 
+                sh "terraform destroy -auto-approve" 
             }
         }
     }
