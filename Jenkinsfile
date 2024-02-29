@@ -44,7 +44,7 @@ message: "Jenkins Build want?"
 
         stage('Apply') {
             steps {
-                sh "terraform apply -auto-approve"
+                sh "terraform destroy -auto-approve"
 slackSend(
 channel: '#test-jenkins-noti',
 color: 'good', 
