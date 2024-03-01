@@ -9,7 +9,7 @@ output "loadbalancer_public_dns" {
 }
 
 output "loadbalancer_subnet_cidr" {
- value = ncloud_mysql.create_mysql.mysql_server_list[0].private_domain
+  value = ncloud_mysql.create_mysql.mysql_server_list[0].private_domain
 
-description = "The mysql DNS of the Instance"
+  description = "The mysql DNS of the Instance"
 }
