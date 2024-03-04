@@ -1,0 +1,44 @@
+---
+- name: Configure web server with example page
+  hosts: web
+  become: true
+  tasks:
+    - name: Install Apache HTTPD
+      package:
+        name: httpd
+        state: installed
+
+    - name: Transfer index.html file
+      copy:
+        src: /tmp/index.html  
+        dest: /var/www/html/index.html
+
+    - name: Add configuration to httpd.conf
+      blockinfile:
+        path: /etc/httpd/conf/httpd.conf
+        marker: "# {mark} Ansible managed block - Do not edit manually"
+        block: |
+            LoadModule proxy_module modules/mod_proxy.so
+            LoadModule proxy_http_module modules/mod_proxy_http.so
+            <VirtualHost *:80>
+                ServerName tomcat
+                ProxyRequests Off
+                ProxyPreserveHost On
+                ProxyPass / http://${domain}:8080/
+                ProxyPassReverse / http://${domain}:8080/
+            </VirtualHost>
+
+    - name: Wait for 5 seconds
+      pause:
+        seconds: 5
+
+    - name: Ensure Apache is running and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Ensure Apache service is restarted
+      service:
+        name: httpd
+        state: restarted

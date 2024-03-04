@@ -11,7 +11,7 @@ resource "null_resource" "file_ansible_inventory" {
     host     = ncloud_server.create_bas_sv.public_ip
   }
   provisioner "file" {
-    content = templatefile("./inventory.tpl", {
+    content = templatefile("${path.module}/inventory.tpl", {
       zone       = length(var.zone),
       pub_name   = ncloud_server.create_pub_sv.*.name,
       pub_ip     = [for server in ncloud_server.create_pub_sv : server.network_interface[0].private_ip]
@@ -40,7 +40,7 @@ resource "null_resource" "file_ansible_core" {
     host     = ncloud_server.create_bas_sv.public_ip
   }
   provisioner "file" {
-    content = templatefile("./mysql.tpl", {
+    content = templatefile("${path.module}/mysql.tpl", {
       db_domain = ncloud_mysql.create_mysql.mysql_server_list[0].private_domain,
       db_name   = var.db_config[2],
       db_user   = var.db_config[0],

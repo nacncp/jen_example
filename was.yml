@@ -1,0 +1,58 @@
+---
+- name: Install Java, Tomcat, and MySQL Connector on WAS servers
+  hosts: was
+  become: yes
+  tasks:
+    - name: Remove Java 1.8
+      yum:
+        name: java-1.8.0-openjdk-headless.x86_64
+        state: absent
+
+    - name: Install Java 17
+      yum:
+        name: java-17-openjdk.x86_64
+        state: present
+
+    - name: Download Apache Tomcat
+      get_url:
+        url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.19/bin/apache-tomcat-10.1.19.tar.gz
+        dest: /usr/local/apache-tomcat-10.1.19.tar.gz
+
+    - name: Create directory for Tomcat
+      file:
+        path: /usr/local/tomcat
+        state: directory
+        mode: '0755'
+
+    - name: Extract Apache Tomcat archive
+      unarchive:
+        src: /usr/local/apache-tomcat-10.1.19.tar.gz
+        dest: /usr/local/tomcat
+        remote_src: yes
+        extra_opts: "--strip-components=1"
+
+    - name: Download MySQL Connector
+      get_url:
+        url: https://cdn.mysql.com/archives/mysql-connector-java-8.2/mysql-connector-j-8.2.0.tar.gz
+        dest: /usr/local/mysql-connector-j-8.2.0.tar.gz
+
+    - name: Extract MySQL Connector
+      unarchive:
+        src: /usr/local/mysql-connector-j-8.2.0.tar.gz
+        dest: /usr/local/
+        remote_src: yes
+
+    - name: Move MySQL Connector JAR file to Tomcat lib directory
+      command: mv /usr/local/mysql-connector-j-8.2.0/mysql-connector-j-8.2.0.jar /usr/local/tomcat/lib
+
+    - name: Transfer mysql.jsp file
+      copy:
+        src: /tmp/mysql.jsp
+        dest: /usr/local/tomcat/webapps/ROOT/mysql.jsp
+
+  
+    - name: Tomcat 시작
+      shell: |
+         /usr/local/tomcat/bin/shutdown.sh
+         sleep 5
+         nohup /usr/local/tomcat/bin/startup.sh &
