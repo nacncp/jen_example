@@ -8,7 +8,7 @@ resource "null_resource" "file_ansible_inventory" {
     type     = "ssh"
     user     = "root"
     password = data.ncloud_root_password.root_passwd_bas.root_password
-    host     = ncloud_server.create_bas_sv.public_ip
+    host     = ncloud_public_ip.public-ip.public_ip
   }
   provisioner "file" {
     content = templatefile("${path.module}/inventory.tpl", {
@@ -27,7 +27,7 @@ resource "null_resource" "file_ansible_inventory" {
     destination = "/tmp/index.html"
   }
   depends_on = [
-    ncloud_server.create_bas_sv,
+    ncloud_public_ip.public-ip,
     data.ncloud_root_password.root_passwd_bas
   ]
 }
