@@ -8,8 +8,7 @@ output "loadbalancer_public_dns" {
   description = "The lb DNS of the Instance"
 }
 
-output "loadbalancer_subnet_cidr" {
-  value = ncloud_mysql.create_mysql.mysql_server_list[0].private_domain
-
-  description = "The mysql DNS of the Instance"
+output "loadbalancer_private_pub" {
+  value       = [for server in ncloud_server.create_pub_sv : server.network_interface[0].private_ip]
+  description = "The WEB of the Private_ip"
 }

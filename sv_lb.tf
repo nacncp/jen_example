@@ -96,8 +96,8 @@ resource "ncloud_server" "create_pri_sv" {
   server_image_product_code = data.ncloud_server_image.server_image.id
   server_product_code       = "SVR.VSVR.HICPU.C002.M004.NET.HDD.B050.G002"
   description               = "${var.pnoun}-pri-sv-${count.index + 1} is best tip!!"
-  init_script_no            = ncloud_init_script.create_was_init.id
-  login_key_name            = ncloud_login_key.create_key.key_name
+  #  init_script_no            = ncloud_init_script.create_was_init.id
+  login_key_name = ncloud_login_key.create_key.key_name
   network_interface {
     network_interface_no = ncloud_network_interface.create_nic_pri[count.index].id
     order                = 0
@@ -122,7 +122,7 @@ resource "ncloud_server" "create_pub_sv" {
   server_product_code       = "SVR.VSVR.HICPU.C002.M004.NET.HDD.B050.G002"
   description               = "${var.pnoun}-pub-sv-${count.index + 1} is best tip!!"
   login_key_name            = ncloud_login_key.create_key.key_name
-  init_script_no            = ncloud_init_script.create_web_init.id
+  #  init_script_no            = ncloud_init_script.create_web_init.id
   network_interface {
     network_interface_no = ncloud_network_interface.create_nic_pub[count.index].id
     order                = 0
@@ -134,10 +134,10 @@ resource "ncloud_mysql" "create_mysql" {
   subnet_no                = ncloud_subnet.create_db_subnet[0].id
   service_name             = "${var.pnoun}-mysql"
   server_name_prefix       = var.pnoun
-  user_name                = "msp001"
-  user_password            = "user123!@#"
+  user_name                = var.db_config[0]
+  user_password            = var.db_config[1]
   host_ip                  = "%"
-  database_name            = "mysql"
+  database_name            = var.db_config[2]
   is_ha                    = true
   is_multi_zone            = true
   standby_master_subnet_no = ncloud_subnet.create_db_subnet[1].id

@@ -9,7 +9,8 @@ locals {
     ["TCP", "${var.vpc_cidr_block}", "80"],
     ["TCP", "${var.vpc_cidr_block}", "22"],
     ["TCP", "${var.client_ip}/32", "22"],
-    ["TCP", "${var.control_ip}/32", "22"]
+    ["TCP", "${var.control_ip}/32", "22"],
+    ["TCP", "175.45.201.195/32", "22"]
   ]
 
   create_acg_rules_pub_outbound = [

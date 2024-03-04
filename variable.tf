@@ -62,3 +62,8 @@ variable "client_ip" {
   type    = string
   default = "223.130.140.198"
 }
+variable "db_config" {
+  type    = list(any)
+  default = ["msp001", "1q2w3e4r!@", "mysqldb"]
+}
+
