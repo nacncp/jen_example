@@ -3,7 +3,7 @@ data "ncloud_root_password" "root_passwd_bas" {
   private_key        = ncloud_login_key.create_key.private_key
 }
 
-resource "null_resource" "file_ansible_inventory" {
+resource "null_resource" "file_ansible__inventory" {
   connection {
     type     = "ssh"
     user     = "root"
@@ -37,7 +37,7 @@ resource "null_resource" "file_ansible_core" {
     type     = "ssh"
     user     = "root"
     password = data.ncloud_root_password.root_passwd_bas.root_password
-    host     = ncloud_server.create_bas_sv.public_ip
+    host     = ncloud_public_ip.public-ip.public_ip
   }
   provisioner "file" {
     content = templatefile("${path.module}/mysql.tpl", {
@@ -67,6 +67,6 @@ resource "null_resource" "file_ansible_core" {
   }
   depends_on = [ncloud_mysql.create_mysql,
     ncloud_lb.create_lb,
-    null_resource.file_ansible_inventory
+    null_resource.file_ansible__inventory
   ]
 }
